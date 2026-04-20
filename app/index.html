@@ -1,1 +1,577 @@
-<h1>Version 2 - try to update2</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aldo — Cloud & DevOps Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --off-white: #f8f7f4;
+    --ink: #1a1917;
+    --ink-muted: #6b6963;
+    --ink-faint: #b5b2ab;
+    --border: rgba(26,25,23,0.1);
+    --border-strong: rgba(26,25,23,0.2);
+    --accent: #1a6b4a;
+    --accent-light: #e8f4ef;
+    --accent-mid: #2e9c6e;
+    --cloud: #3a7bd5;
+    --cloud-light: #eaf1fb;
+    --amber: #c47c1b;
+    --amber-light: #fdf3e3;
+    --coral: #c94f3b;
+    --coral-light: #fcecea;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --sans: 'DM Sans', sans-serif;
+    --serif: 'DM Serif Display', serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--off-white);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(248,247,244,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px; font-weight: 500;
+    color: var(--ink); letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent-mid); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px; font-weight: 400;
+    color: var(--ink-muted); text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ─── SECTIONS ─── */
+  section { max-width: 860px; margin: 0 auto; padding: 7rem 2rem 4rem; }
+  section:first-of-type { padding-top: 8rem; }
+
+  /* ─── HERO ─── */
+  .hero { padding-top: 120px; padding-bottom: 5rem; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    color: var(--accent); letter-spacing: 0.08em;
+    background: var(--accent-light); border: 1px solid rgba(46,156,110,0.2);
+    padding: 4px 12px; border-radius: 100px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent-mid); border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(1.3);} }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    font-weight: 400; line-height: 1.1;
+    color: var(--ink); margin-bottom: 1.25rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent-mid); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--ink-muted);
+    max-width: 520px; line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 10px 22px;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.02em;
+    border-radius: var(--radius); text-decoration: none;
+    transition: all 0.18s;
+    cursor: pointer; border: none;
+  }
+  .btn-primary { background: var(--ink); color: var(--white); }
+  .btn-primary:hover { background: #3a3832; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--border-strong);
+  }
+  .btn-outline:hover { background: var(--white); border-color: var(--ink); }
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3.5rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-item {}
+  .stat-num {
+    display: block; font-family: var(--serif); font-size: 1.9rem;
+    color: var(--ink); line-height: 1;
+    margin-bottom: 2px;
+  }
+  .stat-label { font-size: 12px; color: var(--ink-muted); letter-spacing: 0.03em; }
+
+  /* ─── ABOUT ─── */
+  .section-label {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    color: var(--ink-faint); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .about-text h2 {
+    font-family: var(--serif); font-size: 2rem; font-weight: 400;
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .about-text p { font-size: 0.95rem; color: var(--ink-muted); line-height: 1.75; margin-bottom: 0.9rem; }
+  .about-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+  .about-card-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0.6rem 0;
+    font-size: 13px; color: var(--ink-muted);
+  }
+  .about-card-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+  .about-card-row strong { color: var(--ink); font-weight: 500; }
+  .about-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  /* ─── SKILLS ─── */
+  .skills-intro { margin-bottom: 2rem; }
+  .skills-intro h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; line-height: 1.2; margin-bottom: 0.5rem; }
+  .skills-intro p { font-size: 0.95rem; color: var(--ink-muted); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .skill-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .skill-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
+  .skill-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .skill-card h3 { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-family: var(--mono); font-size: 11px;
+    padding: 3px 8px; border-radius: 5px;
+    border: 1px solid var(--border);
+    color: var(--ink-muted); background: var(--off-white);
+  }
+  .tag.cloud { background: var(--cloud-light); color: var(--cloud); border-color: rgba(58,123,213,0.2); }
+  .tag.green { background: var(--accent-light); color: var(--accent); border-color: rgba(46,156,110,0.2); }
+  .tag.amber { background: var(--amber-light); color: var(--amber); border-color: rgba(196,124,27,0.2); }
+  .tag.coral { background: var(--coral-light); color: var(--coral); border-color: rgba(201,79,59,0.2); }
+
+  /* ─── PROJECTS ─── */
+  .projects-intro { margin-bottom: 2rem; }
+  .projects-intro h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; line-height: 1.2; margin-bottom: 0.5rem; }
+  .projects-intro p { font-size: 0.95rem; color: var(--ink-muted); }
+  .project-list { display: flex; flex-direction: column; gap: 1rem; }
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.75rem;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 1rem; align-items: start;
+    transition: border-color 0.2s, transform 0.2s;
+    text-decoration: none; color: inherit;
+  }
+  .project-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .project-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem; }
+  .project-badge {
+    font-family: var(--mono); font-size: 10px; font-weight: 500;
+    padding: 2px 8px; border-radius: 100px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .project-card h3 { font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .project-card p { font-size: 0.875rem; color: var(--ink-muted); line-height: 1.6; }
+  .project-arrow {
+    font-size: 18px; color: var(--ink-faint);
+    transition: transform 0.2s, color 0.2s;
+    margin-top: 2px;
+  }
+  .project-card:hover .project-arrow { transform: translate(3px,-3px); color: var(--ink); }
+  .project-stack { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 0.75rem; }
+
+  /* ─── CONTACT ─── */
+  .contact-wrap {
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    padding: 3rem; color: var(--white);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: center;
+  }
+  .contact-wrap .section-label { color: rgba(255,255,255,0.3); }
+  .contact-wrap h2 {
+    font-family: var(--serif); font-size: 2rem; font-weight: 400;
+    line-height: 1.2; color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .contact-wrap p { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0.85rem 1.1rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    text-decoration: none; color: var(--white);
+    font-size: 13px; font-weight: 400;
+    transition: background 0.18s, border-color 0.18s;
+  }
+  .contact-link:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
+  .contact-link-icon {
+    width: 32px; height: 32px; border-radius: 7px;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .contact-link-meta { display: flex; flex-direction: column; }
+  .contact-link-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 1px; }
+  .contact-link-val { font-size: 13px; color: var(--white); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center; padding: 2rem;
+    font-size: 12px; color: var(--ink-faint);
+    font-family: var(--mono);
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .contact-wrap { grid-template-columns: 1fr; padding: 2rem; }
+    .project-card { grid-template-columns: 1fr; }
+  }
+
+  /* ─── FADE IN ─── */
+  .fade-up {
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Aldo<span>.</span>Cloud</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-tag">Available for new opportunities</div>
+  <h1>Cloud &amp; DevOps<br/>engineer <em>building</em><br/>resilient systems.</h1>
+  <p class="hero-sub">I design, automate, and operate cloud infrastructure — turning complex deployments into reliable, scalable pipelines that teams can trust.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View my work</a>
+    <a href="#contact" class="btn btn-outline">Get in touch</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">No experience</span>
+      <span class="stat-label">Years experience</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">5+</span>
+      <span class="stat-label">Projects shipped</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Cloud platforms</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">99.9%</span>
+      <span class="stat-label">Uptime SLA</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ABOUT -->
+<section id="about" class="fade-up">
+  <p class="section-label">// about me</p>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2>Hi , My name Aldo.</h2>
+      <p>I'm a Cloud & DevOps engineer focused on building infrastructure that teams can rely on. My work sits at the intersection of reliability engineering and developer experience — making it easier to ship software safely.</p>
+      <p>From Kubernetes cluster tuning to CI/CD pipeline design and cloud cost optimization, I care about systems that are observable, automated, and built to last.</p>
+    </div>
+    <div class="about-card">
+      <div class="about-card-row">
+        <div class="about-icon" style="background:#eaf1fb;">🌏</div>
+        <div><strong>Location</strong><br/>South Tangerang, Indonesia</div>
+      </div>
+      <div class="about-card-row">
+        <div class="about-icon" style="background:#e8f4ef;">🎓</div>
+        <div><strong>Education</strong><br/>Computer Science, B.Sc.</div>
+      </div>
+      <div class="about-card-row">
+        <div class="about-icon" style="background:#fdf3e3;">📜</div>
+        <div><strong>Certifications</strong><br/>AWS SAA .</div>
+      </div>
+      <div class="about-card-row">
+        <div class="about-icon" style="background:#fcecea;">💼</div>
+        <div><strong>Status</strong><br/>Open to roles &amp; freelance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- SKILLS -->
+<section id="skills" class="fade-up">
+  <p class="section-label">// skills &amp; tools</p>
+  <div class="skills-intro">
+    <h2>The stack I work with.</h2>
+    <p>A curated set of tools I use to design, ship, and operate cloud-native systems.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon" style="background:#eaf1fb;">☁️</div>
+        <h3>Cloud Platforms</h3>
+      </div>
+      <div class="skill-tags">
+        <span class="tag cloud">AWS</span>
+        <span class="tag cloud">GCP</span>
+        <span class="tag cloud">Azure</span>
+        <span class="tag cloud">EC2</span>
+        <span class="tag cloud">S3</span>
+        <span class="tag cloud">RDS</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon" style="background:#e8f4ef;">🐳</div>
+        <h3>Containers &amp; Orchestration</h3>
+      </div>
+      <div class="skill-tags">
+        <span class="tag green">Docker</span>
+        <span class="tag green">Kubernetes</span>
+        <span class="tag green">Helm</span>
+        <span class="tag green">EKS</span>
+        <span class="tag green">GKE</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon" style="background:#fdf3e3;">⚙️</div>
+        <h3>CI/CD &amp; Automation</h3>
+      </div>
+      <div class="skill-tags">
+        <span class="tag amber">GitHub Actions</span>
+        <span class="tag amber">Jenkins</span>
+        <span class="tag amber">GitLab CI</span>
+        <span class="tag amber">ArgoCD</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon" style="background:#fcecea;">🏗️</div>
+        <h3>Infrastructure as Code</h3>
+      </div>
+      <div class="skill-tags">
+        <span class="tag coral">Terraform</span>
+        <span class="tag coral">Ansible</span>
+        <span class="tag coral">Pulumi</span>
+        <span class="tag coral">CloudFormation</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon" style="background:#eaf1fb;">📊</div>
+        <h3>Observability</h3>
+      </div>
+      <div class="skill-tags">
+        <span class="tag cloud">Prometheus</span>
+        <span class="tag cloud">Grafana</span>
+        <span class="tag cloud">Datadog</span>
+        <span class="tag cloud">ELK Stack</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <div class="skill-icon" style="background:#e8f4ef;">🔐</div>
+        <h3>Security &amp; Networking</h3>
+      </div>
+      <div class="skill-tags">
+        <span class="tag green">IAM</span>
+        <span class="tag green">VPC</span>
+        <span class="tag green">Vault</span>
+        <span class="tag green">Istio</span>
+        <span class="tag green">Nginx</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- PROJECTS -->
+<section id="projects" class="fade-up">
+  <p class="section-label">// projects</p>
+  <div class="projects-intro">
+    <h2>Work I'm proud of.</h2>
+    <p>A selection of infrastructure and DevOps projects from the past few years.</p>
+  </div>
+  <div class="project-list">
+    <a href="#" class="project-card">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge" style="background:var(--cloud-light);color:var(--cloud);">AWS · Kubernetes</span>
+        </div>
+        <h3>Multi-Region Kubernetes Platform</h3>
+        <p>Designed and deployed a production-grade EKS cluster across 3 AWS regions with automated failover, HPA, and GitOps workflows using ArgoCD. Reduced deployment time by 70%.</p>
+        <div class="project-stack">
+          <span class="tag cloud">EKS</span>
+          <span class="tag green">Terraform</span>
+          <span class="tag amber">ArgoCD</span>
+          <span class="tag">Route 53</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" class="project-card">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge" style="background:var(--accent-light);color:var(--accent);">GCP · CI/CD</span>
+        </div>
+        <h3>Zero-Downtime Deployment Pipeline</h3>
+        <p>Built a fully automated CI/CD pipeline on GitHub Actions and GCP Cloud Run supporting canary deployments, rollback triggers, and Slack notifications on failures.</p>
+        <div class="project-stack">
+          <span class="tag amber">GitHub Actions</span>
+          <span class="tag cloud">Cloud Run</span>
+          <span class="tag green">Docker</span>
+          <span class="tag">Slack API</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" class="project-card">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge" style="background:var(--amber-light);color:var(--amber);">Observability</span>
+        </div>
+        <h3>Centralised Observability Stack</h3>
+        <p>Implemented a full monitoring and alerting platform using Prometheus, Grafana, and Loki across microservices. Reduced mean time to detect incidents from 25 min to under 3 min.</p>
+        <div class="project-stack">
+          <span class="tag cloud">Prometheus</span>
+          <span class="tag cloud">Grafana</span>
+          <span class="tag">Loki</span>
+          <span class="tag green">Helm</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" class="project-card">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge" style="background:var(--coral-light);color:var(--coral);">Security · IaC</span>
+        </div>
+        <h3>Cloud Security &amp; Compliance Automation</h3>
+        <p>Automated CIS benchmark compliance across AWS accounts using Terraform, AWS Config, and custom Lambda checks. Reduced manual audit effort by 90%.</p>
+        <div class="project-stack">
+          <span class="tag coral">Terraform</span>
+          <span class="tag cloud">AWS Config</span>
+          <span class="tag">Lambda</span>
+          <span class="tag green">IAM</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CONTACT -->
+<section id="contact" class="fade-up">
+  <div class="contact-wrap">
+    <div>
+      <p class="section-label">// contact</p>
+      <h2>Let's build something reliable together.</h2>
+      <p>Whether it's a new role, freelance project, or just a cloud architecture chat — I'm always happy to connect.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:aldo.cloud.tech@gmail.com" class="contact-link">
+        <div class="contact-link-icon">✉️</div>
+        <div class="contact-link-meta">
+          <span class="contact-link-label">Email</span>
+          <span class="contact-link-val">aldo.cloud.tech@gmail.com</span>
+        </div>
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="contact-link">
+        <div class="contact-link-icon">💼</div>
+        <div class="contact-link-meta">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-val">linkedin.com/in/aldo-cloud</span>
+        </div>
+      </a>
+      <a href="https://github.com" target="_blank" class="contact-link">
+        <div class="contact-link-icon">🐙</div>
+        <div class="contact-link-meta">
+          <span class="contact-link-label">GitHub</span>
+          <span class="contact-link-val">github.com/Filllix/AWS-Project</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Aldo &nbsp;·&nbsp; built with care</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
