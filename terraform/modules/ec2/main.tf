@@ -42,6 +42,6 @@ systemctl enable docker
 EOF
 
 tags = {
-Name = "devops-ec2"
+Name = var.instance_name
 }
 }
