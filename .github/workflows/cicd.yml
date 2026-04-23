@@ -7,42 +7,30 @@ on:
       - dev
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Login DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build & Push Image (MAIN)
-        run:
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app ./app
-          docker push ${{ secrets.DOCKER_USERNAME }}/devops-app
-
-      - name: Build & Push Image (DEV)
-        run:
+      # ✅ Build DEV
+      - name: Build & Push DEV
+        if: github.ref == 'refs/heads/dev'
+        run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:dev .
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+      # ✅ Build PROD
+      - name: Build & Push MAIN
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:main .
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:main
 
-    steps:
-      - name: SSH to EC2 & Deploy
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app
-            docker stop app || true
-            docker rm app || true
-            docker run -d -p 80:80 --name app ${{ secrets.DOCKER_USERNAME }}/devops-app
 
   deploy-dev:
     needs: build
@@ -50,10 +38,7 @@ jobs:
     if: github.ref == 'refs/heads/dev'
 
     steps:
-      - name: Deploy to Dev
-        run: echo "Deploy ke Dev server"
-
-      - name: SSH to EC2 & Deploy
+      - name: Deploy ke DEV EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST_DEV }}
@@ -61,6 +46,23 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
-            docker stop app || true
-            docker rm app || true
-            docker run -d -p 80:80 --name app ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
+            docker rm -f app-dev || true
+            docker run -d -p 80:80 --name app-dev ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
+
+
+  deploy-main:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy ke MAIN EC2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:main
+            docker rm -f app-prod || true
+            docker run -d -p 80:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:main
