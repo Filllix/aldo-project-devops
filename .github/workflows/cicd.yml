@@ -21,14 +21,14 @@ jobs:
       - name: Build & Push DEV
         if: github.ref == 'refs/heads/dev'
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:dev .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:dev ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
       # ✅ Build PROD
       - name: Build & Push MAIN
         if: github.ref == 'refs/heads/main'
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:main .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:main ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:main
 
 
