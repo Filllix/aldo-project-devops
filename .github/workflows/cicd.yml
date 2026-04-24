@@ -64,5 +64,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:main
-            docker rm -f app-prod || true
-            docker run -d -p 80:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:main
+            docker rm -f app-main || true
+            docker run -d -p 80:80 --name app-main ${{ secrets.DOCKER_USERNAME }}/devops-app:main
