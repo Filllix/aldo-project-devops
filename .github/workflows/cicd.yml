@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - prod
       - dev
 
 jobs:
@@ -25,11 +25,11 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
       # ✅ Build PROD
-      - name: Build & Push MAIN
-        if: github.ref == 'refs/heads/main'
+      - name: Build & Push PROD
+        if: github.ref == 'refs/heads/prod'
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:main ./app
-          docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:main
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:prod ./app
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
 
 
   deploy-dev:
@@ -47,22 +47,22 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
             docker rm -f app-dev || true
-            docker run -d -p 80:80 --name app-dev ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
+            docker run -d -p 8080:80 --name app-dev ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
 
-  deploy-main:
+  deploy-prod:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/prod'
 
     steps:
-      - name: Deploy ke MAIN EC2
+      - name: Deploy ke PROD EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ secrets.EC2_HOST_PROD }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:main
-            docker rm -f app-main || true
-            docker run -d -p 80:80 --name app-main ${{ secrets.DOCKER_USERNAME }}/devops-app:main
+            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
+            docker rm -f app-prod || true
+            docker run -d -p 80:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
