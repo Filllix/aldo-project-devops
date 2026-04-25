@@ -25,6 +25,13 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:dev ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
+          # ✅ Build STAGING
+      - name: Build & Push STAGING
+        if: github.ref == 'refs/heads/staging'
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:staging ./app
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+
       # ✅ Build PROD
       - name: Build & Push PROD
         if: github.ref == 'refs/heads/prod'
