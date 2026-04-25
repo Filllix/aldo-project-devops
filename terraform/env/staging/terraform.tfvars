@@ -1,0 +1,7 @@
+env           = "dev"
+vpc_cidr      = "10.0.0.0/16"
+ami           = "ami-0df7a207adb9748c7"
+instance_type = "t3.micro"
+subnet_cidr   = "10.0.2.0/24"
+az            = "ap-southeast-1a"
+key_name      = "devops-project"

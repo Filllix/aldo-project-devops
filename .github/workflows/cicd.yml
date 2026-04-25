@@ -49,6 +49,23 @@ jobs:
             docker rm -f app-dev || true
             docker run -d -p 8080:80 --name app-dev ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging'
+
+    steps:
+      - name: Deploy ke STAGING EC2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST_STAGING }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+            docker rm -f app-staging || true
+            docker run -d -p 8080:80 --name app-staging ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+
 
   deploy-prod:
     needs: build
