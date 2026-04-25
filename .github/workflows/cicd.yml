@@ -72,7 +72,7 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
             docker rm -f app-staging || true
-            docker run -d -p 8080:80 --name app-staging ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+            docker run -d -p 8081:80 --name app-staging ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
 
 
   deploy-prod:
