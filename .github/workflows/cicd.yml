@@ -25,9 +25,16 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:dev ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
+          # ✅ Build STAGING
+      - name: Build & Push STAGING
+        if: github.ref == 'refs/heads/staging'
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:staging ./app
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+
       # ✅ Build PROD
       - name: Build & Push PROD
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/prod'
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:prod ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
@@ -50,6 +57,12 @@ jobs:
             docker rm -f app-dev || true
             docker run -d -p 8080:80 --name app-dev ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
+            # ✅ HEALTHCHECK
+            echo "Waiting app to start..."
+            sleep 5
+
+            curl -f http://localhost:8080 || (echo "Healthcheck FAILED DEV" && exit 1)
+
   deploy-staging:
     needs: build
     runs-on: ubuntu-latest
@@ -65,7 +78,13 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
             docker rm -f app-staging || true
-            docker run -d -p 8080:80 --name app-staging ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+            docker run -d -p 8081:80 --name app-staging ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+            
+            # ✅ HEALTHCHECK
+            echo "Waiting app to start..."
+            sleep 5
+
+            curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
 
 
   deploy-prod:
@@ -84,3 +103,9 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
             docker rm -f app-prod || true
             docker run -d -p 80:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
+
+            # ✅ HEALTHCHECK
+            echo "Waiting app to start..."
+            sleep 5
+
+            curl -f http://localhost:80 || (echo "Healthcheck FAILED PROD" && exit 1)
