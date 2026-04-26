@@ -5,6 +5,7 @@ Membangun end-to-end DevOps pipeline berbasis cloud dengan pendekatan Infrastruc
 Project ini mensimulasikan environment production dengan multi-environment (dev, staging, prod) untuk memastikan proses deployment yang scalable, repeatable, dan reliable.
 
 Business Impact (What This Project Solves)
+<<<<<<< HEAD
     
        - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
 	   - Consistency antar environment → tidak ada config mismatch (dev vs prod)
@@ -132,3 +133,12 @@ aldo-project-devops/
 │   └── .gitignore
       
 ```
+=======
+  - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
+	-	Consistency antar environment → tidak ada config mismatch (dev vs prod)
+	-	Downtime berkurang → karena proses deploy terstandarisasi
+	- Visibility meningkat → monitoring real-time dengan metrics
+	- Security lebih terkontrol → menggunakan security group & network isolation
+
+  - 
+>>>>>>> 9704c2a (Initialize README with project overview and benefits)
