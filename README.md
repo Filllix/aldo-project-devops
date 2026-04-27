@@ -6,7 +6,7 @@ Project ini mensimulasikan environment production dengan multi-environment (dev,
 
 Business Impact (What This Project Solves)
     
-      - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
+       - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
 	   - Consistency antar environment → tidak ada config mismatch (dev vs prod)
 	   - Downtime berkurang → karena proses deploy terstandarisasi
 	   - Visibility meningkat → monitoring real-time dengan metrics
@@ -95,20 +95,43 @@ Security Implementation
 
 Project Structure
 
-project-root/
+aldo-project-devops/
 |
-|-- .github/workflows/
-|   └── cicd.yml
-|-- terraform/
-|   ├── modules/
-|   ├── env/
-|   │   ├── dev/
-|   │   ├── staging/
-|   │   └── prod/
+|--.github/workflows/
+|  |--cicd.yml
 |
-|-- app/
-|   |-- Dockerfile
+|--app/
+|   |--dockerfile
+|   |--index.html
 |
-|
-|-- monitoring/
-    |-- prometheus.yml
+|--terraform/
+   |--env/
+   |   |--dev/
+   |   |    |--main.tf
+   |   |    |--ouputs.tf
+   |   |    |--terraform.tfvars
+   |   |    |--variables.tf
+   |   |--prod/
+   |   |    |--main.tf
+   |   |    |--ouputs.tf
+   |   |    |--terraform.tfvars
+   |   |    |--variables.tf
+   |   |--staging/
+   |   |    |--main.tf
+   |   |    |--ouputs.tf
+   |   |    |--terraform.tfvars
+   |   |    |--variables.tf
+   |
+   |--modules/
+   |   |--ec2/
+   |   |  |--main.tf
+   |   |  |--variables.tf
+   |   |  |--outputs.tf
+   |   |
+   |   |--vpc/
+   |      |--main.tf
+   |      |--variables.tf
+   |      |--outputs.tf
+   |
+   
+      
