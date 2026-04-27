@@ -145,7 +145,7 @@ aldo-project-devops/
 >>>>>>> 9704c2a (Initialize README with project overview and benefits)
 =======
     
-    - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
+      - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
 	   - Consistency antar environment → tidak ada config mismatch (dev vs prod)
 	   - Downtime berkurang → karena proses deploy terstandarisasi
 	   - Visibility meningkat → monitoring real-time dengan metrics
@@ -157,8 +157,8 @@ Deployment time: ~10–15 menit → < 3 menit
 	
     - Manual steps reduced: 80% → 0% (fully automated)
     - Infrastructure provisioning: 100% via Terraform
-   	- Containerized services: 100%
-   	- Monitoring coverage: CPU, Memory, Network, Instance health
+    - Containerized services: 100%
+    - Monitoring coverage: CPU, Memory, Network, Instance health
 
 Architecture Overview
 
@@ -166,23 +166,23 @@ Project mencakup:
 	
     - AWS EC2 → compute instance
     - VPC → isolated network
-	   - Subnet (Public) → resource placement
-   	- Internet Gateway (IGW) → internet access
-   	- Route Table (RTB) → traffic routing
-   	- Security Group → firewall rules
-	   - Docker → containerization
-   	- GitHub Actions → CI/CD automation
-   	- Prometheus → metrics collection
-   	- Grafana → visualization dashboard
+    - Subnet (Public) → resource placement
+    - Internet Gateway (IGW) → internet access
+    - Route Table (RTB) → traffic routing
+    - Security Group → firewall rules
+    - Docker → containerization
+    - GitHub Actions → CI/CD automation
+    - Prometheus → metrics collection
+    - Grafana → visualization dashboard
 
 Tech Stack
 	
     - Terraform (Infrastructure as Code)
     - AWS (EC2, VPC, Networking)
-	   - Docker (Containerization)
-	   - GitHub Actions (CI/CD Pipeline)
-	   - Prometheus & Grafana (Monitoring & Observability)
-	   - Linux (Ubuntu Server)
+    - Docker (Containerization)
+    - GitHub Actions (CI/CD Pipeline)
+    - Prometheus & Grafana (Monitoring & Observability)
+    - Linux (Ubuntu Server)
 
 Multi-Environment Strategy
 
@@ -230,13 +230,13 @@ Security Implementation
 	     - Prometheus (9090)
 	     - Node Exporter (9100)
     - Isolated VPC network
-   	- Controlled inbound/outbound traffic
+    - Controlled inbound/outbound traffic
 
 Project Structure
 
 project-root/
-│
-├── .github/workflows/
+|
+|-- .github/workflows/
 |   └── cicd.yml
 ├── terraform/
 │   ├── modules/
@@ -251,4 +251,3 @@ project-root/
 │
 └── monitoring/
     ├── prometheus.yml
->>>>>>> 99c48a2 (Update README.md)
