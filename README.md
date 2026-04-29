@@ -95,7 +95,7 @@ Security Implementation
 
 Project Structure
 
-'''
+' ' '
 
 aldo-project-devops/
 |
@@ -137,5 +137,5 @@ aldo-project-devops/
    |
    |--.gitignore
 
-'''
+' ' '
       
