@@ -101,9 +101,8 @@ Security Implementation
 
 Project Structure
 
-'''
-
 aldo-project-devops/
+<<<<<<< HEAD
 |
 |--.github/workflows/
 |  |--cicd.yml
@@ -143,4 +142,39 @@ aldo-project-devops/
    |
    |--.gitignore
 '''
+=======
+├── .github/
+│   └── workflows/
+│       └── cicd.yml
+├── app/
+│   ├── Dockerfile
+│   └── index.html
+├── terraform/
+│   ├── env/
+│   │   ├── dev/
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   ├── terraform.tfvars
+│   │   │   └── variables.tf
+│   │   ├── prod/
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   ├── terraform.tfvars
+│   │   │   └── variables.tf
+│   │   └── staging/
+│   │       ├── main.tf
+│   │       ├── outputs.tf
+│   │       ├── terraform.tfvars
+│   │       └── variables.tf
+│   ├── modules/
+│   │   ├── ec2/
+│   │   │   ├── main.tf
+│   │   │   ├── variables.tf
+│   │   │   └── outputs.tf
+│   │   └── vpc/
+│   │       ├── main.tf
+│   │       ├── variables.tf
+│   │       └── outputs.tf
+│   └── .gitignore
+>>>>>>> 229d903 (Update README.md)
       
