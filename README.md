@@ -133,5 +133,6 @@ aldo-project-devops/
    |      |--variables.tf
    |      |--outputs.tf
    |
+   |--.gitnore
    
       
