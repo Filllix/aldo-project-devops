@@ -93,6 +93,7 @@ Security Implementation
     - Security Group rules:
       - SSH (22)
       - HTTP (80)
+      - HTTPS (443)
 	     - Grafana (3000)
 	     - Prometheus (9090)
 	     - Node Exporter (9100)
@@ -101,8 +102,9 @@ Security Implementation
 
 Project Structure
 
+'''
+
 aldo-project-devops/
-<<<<<<< HEAD
 |
 |--.github/workflows/
 |  |--cicd.yml
@@ -141,40 +143,3 @@ aldo-project-devops/
    |      |--outputs.tf
    |
    |--.gitignore
-'''
-=======
-├── .github/
-│   └── workflows/
-│       └── cicd.yml
-├── app/
-│   ├── Dockerfile
-│   └── index.html
-├── terraform/
-│   ├── env/
-│   │   ├── dev/
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   ├── terraform.tfvars
-│   │   │   └── variables.tf
-│   │   ├── prod/
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   ├── terraform.tfvars
-│   │   │   └── variables.tf
-│   │   └── staging/
-│   │       ├── main.tf
-│   │       ├── outputs.tf
-│   │       ├── terraform.tfvars
-│   │       └── variables.tf
-│   ├── modules/
-│   │   ├── ec2/
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── outputs.tf
-│   │   └── vpc/
-│   │       ├── main.tf
-│   │       ├── variables.tf
-│   │       └── outputs.tf
-│   └── .gitignore
->>>>>>> 229d903 (Update README.md)
-      
