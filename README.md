@@ -101,6 +101,8 @@ Security Implementation
 
 Project Structure
 
+'''
+
 aldo-project-devops/
 |
 |--.github/workflows/
