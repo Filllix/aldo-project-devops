@@ -101,7 +101,7 @@ Security Implementation
 
 Project Structure
 
-'''
+' ' '
 
 aldo-project-devops/
 |
@@ -141,6 +141,7 @@ aldo-project-devops/
    |      |--variables.tf
    |      |--outputs.tf
    |
-   |--.gitnore
-   
+   |--.gitignore
+
+' ' '
       
