@@ -96,6 +96,7 @@ Security Implementation
 Project Structure
 
 '''
+
 aldo-project-devops/
 |
 |--.github/workflows/
@@ -135,5 +136,6 @@ aldo-project-devops/
    |      |--outputs.tf
    |
    |--.gitignore
+
 '''
       
