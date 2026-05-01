@@ -10,6 +10,13 @@ cidr_blocks = ["0.0.0.0/0"]
 }
 
 ingress {
+from_port = 443
+to_port = 443
+protocol = "tcp"
+cidr_blocks = ["0.0.0.0/0"]
+}
+
+ingress {
 from_port = 8080
 to_port = 8080
 protocol = "tcp"
@@ -30,6 +37,8 @@ protocol = "tcp"
 cidr_blocks = ["0.0.0.0/0"]
 }
 
+
+#PROMOTHEUS
 ingress {
 <<<<<<< HEAD
 from_port = 8080
@@ -48,6 +57,23 @@ to_port = 9090
 protocol = "tcp"
 cidr_blocks = ["0.0.0.0/0"]
 }
+
+#NODE EXPLORER
+ingress {
+from_port = 9100
+to_port = 9100
+protocol = "tcp"
+cidr_blocks = ["0.0.0.0/0"]
+}
+
+#GRAFANA
+ingress {
+from_port = 3000
+to_port = 3000
+protocol = "tcp"
+cidr_blocks = ["0.0.0.0/0"]
+}
+
 
 egress {
 from_port = 0
