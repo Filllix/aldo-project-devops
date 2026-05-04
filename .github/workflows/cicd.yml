@@ -101,7 +101,7 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
             docker rm -f app-prod || true
-            docker run -d -p 80:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
+            docker run -d -p 8082:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
 
             # ✅ HEALTHCHECK
             echo "Waiting app to start..."
