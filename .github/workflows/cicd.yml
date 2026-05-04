@@ -86,7 +86,6 @@ jobs:
 
             curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
 
-
   deploy-prod:
     needs: build
     runs-on: ubuntu-latest
