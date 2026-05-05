@@ -19,3 +19,12 @@ module "ec2" {
     key_name      = var.key_name
     instance_name = "prod-ec2"
 }
+
+resource "aws_eip" "my_ip" {
+  domain = "vpc"
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = module.ec2.instance_id
+  allocation_id = aws_eip.my_ip.id
+}
