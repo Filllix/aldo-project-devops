@@ -47,20 +47,8 @@ cidr_blocks = ["0.0.0.0/0"]
 
 #PROMOTHEUS
 ingress {
-<<<<<<< HEAD
-from_port = 8080
-to_port = 8080
-protocol = "tcp"
-cidr_blocks = ["0.0.0.0/0"]
-}
-
-ingress {
-from_port = 8081
-to_port = 8081
-=======
 from_port = 9090
 to_port = 9090
->>>>>>> a39b543 (update security group add prometheus 9090)
 protocol = "tcp"
 cidr_blocks = ["0.0.0.0/0"]
 }
