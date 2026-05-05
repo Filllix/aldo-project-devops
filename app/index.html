@@ -312,19 +312,19 @@
   </div>
   <div class="hero-stats">
     <div class="stat-item">
-      <span class="stat-num">No experience</span>
-      <span class="stat-label">Years experience</span>
+      <span class="stat-num">No profesional experience</span>
+      <span class="stat-label">-</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">5+</span>
+      <span class="stat-num">3+</span>
       <span class="stat-label">Projects shipped</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">3</span>
+      <span class="stat-num">1</span>
       <span class="stat-label">Cloud platforms</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">99.9%</span>
+      <span class="stat-num">90%</span>
       <span class="stat-label">Uptime SLA</span>
     </div>
   </div>
@@ -379,8 +379,6 @@
       </div>
       <div class="skill-tags">
         <span class="tag cloud">AWS</span>
-        <span class="tag cloud">GCP</span>
-        <span class="tag cloud">Azure</span>
         <span class="tag cloud">EC2</span>
         <span class="tag cloud">S3</span>
         <span class="tag cloud">RDS</span>
@@ -393,10 +391,8 @@
       </div>
       <div class="skill-tags">
         <span class="tag green">Docker</span>
-        <span class="tag green">Kubernetes</span>
-        <span class="tag green">Helm</span>
+        <span class="tag green">Kubernetes (on learning)</span>
         <span class="tag green">EKS</span>
-        <span class="tag green">GKE</span>
       </div>
     </div>
     <div class="skill-card">
@@ -406,9 +402,7 @@
       </div>
       <div class="skill-tags">
         <span class="tag amber">GitHub Actions</span>
-        <span class="tag amber">Jenkins</span>
         <span class="tag amber">GitLab CI</span>
-        <span class="tag amber">ArgoCD</span>
       </div>
     </div>
     <div class="skill-card">
@@ -418,8 +412,6 @@
       </div>
       <div class="skill-tags">
         <span class="tag coral">Terraform</span>
-        <span class="tag coral">Ansible</span>
-        <span class="tag coral">Pulumi</span>
         <span class="tag coral">CloudFormation</span>
       </div>
     </div>
@@ -431,8 +423,6 @@
       <div class="skill-tags">
         <span class="tag cloud">Prometheus</span>
         <span class="tag cloud">Grafana</span>
-        <span class="tag cloud">Datadog</span>
-        <span class="tag cloud">ELK Stack</span>
       </div>
     </div>
     <div class="skill-card">
@@ -444,7 +434,6 @@
         <span class="tag green">IAM</span>
         <span class="tag green">VPC</span>
         <span class="tag green">Vault</span>
-        <span class="tag green">Istio</span>
         <span class="tag green">Nginx</span>
       </div>
     </div>
@@ -466,13 +455,15 @@
         <div class="project-meta">
           <span class="project-badge" style="background:var(--cloud-light);color:var(--cloud);">AWS · Kubernetes</span>
         </div>
-        <h3>Multi-Region Kubernetes Platform</h3>
-        <p>Designed and deployed a production-grade EKS cluster across 3 AWS regions with automated failover, HPA, and GitOps workflows using ArgoCD. Reduced deployment time by 70%.</p>
+        <h3>Auto Scaling + Load Balancer</h3>
+        <h4>Auto Scaling + Load Balancer</h4>
+        <p>AWS architecture that is tolerant to instance failures uses Auto Scaling Group (ASG) and Application Load Balancer (ALB/ELB). Configuration is done via the AWS Console / EC2 Dashboard manually — not through Terraform or Docker.</p>
         <div class="project-stack">
-          <span class="tag cloud">EKS</span>
-          <span class="tag green">Terraform</span>
-          <span class="tag amber">ArgoCD</span>
-          <span class="tag">Route 53</span>
+          <span class="tag cloud">AWS</span>
+          <span class="tag green">EC2</span>
+          <span class="tag amber">ALB/ELB</span>
+          <span class="tag">Auto Scaling Group</span>
+          <span class="tag blue">CloudWatch</span>
         </div>
       </div>
       <span class="project-arrow">↗</span>
@@ -480,15 +471,16 @@
     <a href="#" class="project-card">
       <div>
         <div class="project-meta">
-          <span class="project-badge" style="background:var(--accent-light);color:var(--accent);">GCP · CI/CD</span>
+          <span class="project-badge" style="background:var(--accent-light);color:var(--accent);">AWS · CI/CD</span>
         </div>
-        <h3>Zero-Downtime Deployment Pipeline</h3>
-        <p>Built a fully automated CI/CD pipeline on GitHub Actions and GCP Cloud Run supporting canary deployments, rollback triggers, and Slack notifications on failures.</p>
+        <h3>Infrastructure as Code + CI/CD Pipeline</h3>
+        <h4>Terraform + Docker + Multi-Environment</h4>
+        <p>EC2 provisioning is fully automated using Terraform as Infrastructure as Code. Docker is used for application containerization. The CI/CD pipeline eliminates manual deployment processes.</p>
         <div class="project-stack">
           <span class="tag amber">GitHub Actions</span>
           <span class="tag cloud">Cloud Run</span>
           <span class="tag green">Docker</span>
-          <span class="tag">Slack API</span>
+          <span class="tag">Terraform</span>
         </div>
       </div>
       <span class="project-arrow">↗</span>
@@ -498,34 +490,16 @@
         <div class="project-meta">
           <span class="project-badge" style="background:var(--amber-light);color:var(--amber);">Observability</span>
         </div>
-        <h3>Centralised Observability Stack</h3>
-        <p>Implemented a full monitoring and alerting platform using Prometheus, Grafana, and Loki across microservices. Reduced mean time to detect incidents from 25 min to under 3 min.</p>
+        <h3>Observability Stack</h3>
+        <h4>Grafana · Prometheus · Node Exporter · CloudWatch</h4>
+        <p>Full observability stack for real-time monitoring of all EC2 instances. Metrics are collected from each node and visualized on the Grafana dashboard.</p>
         <div class="project-stack">
           <span class="tag cloud">Prometheus</span>
           <span class="tag cloud">Grafana</span>
-          <span class="tag">Loki</span>
-          <span class="tag green">Helm</span>
+          <span class="tag green">Node Exporter</span>
         </div>
       </div>
-      <span class="project-arrow">↗</span>
-    </a>
-    <a href="#" class="project-card">
-      <div>
-        <div class="project-meta">
-          <span class="project-badge" style="background:var(--coral-light);color:var(--coral);">Security · IaC</span>
-        </div>
-        <h3>Cloud Security &amp; Compliance Automation</h3>
-        <p>Automated CIS benchmark compliance across AWS accounts using Terraform, AWS Config, and custom Lambda checks. Reduced manual audit effort by 90%.</p>
-        <div class="project-stack">
-          <span class="tag coral">Terraform</span>
-          <span class="tag cloud">AWS Config</span>
-          <span class="tag">Lambda</span>
-          <span class="tag green">IAM</span>
-        </div>
-      </div>
-      <span class="project-arrow">↗</span>
-    </a>
-  </div>
+      
 </section>
 
 <hr class="divider" />
@@ -574,5 +548,6 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
-</body>t e s t   d e p l o y  
+</body>t e s t   d e p l o y 
+ 
  
