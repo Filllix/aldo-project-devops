@@ -5,6 +5,12 @@ Membangun end-to-end DevOps pipeline berbasis cloud dengan pendekatan Infrastruc
 Project ini mensimulasikan environment production dengan multi-environment (dev, staging, prod) untuk memastikan proses deployment yang scalable, repeatable, dan reliable.
 
 Business Impact (What This Project Solves)
+  - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
+	-	Consistency antar environment → tidak ada config mismatch (dev vs prod)
+	-	Downtime berkurang → karena proses deploy terstandarisasi
+	- Visibility meningkat → monitoring real-time dengan metrics
+	- Security lebih terkontrol → menggunakan security group & network isolation
+
     
        - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
 	   - Consistency antar environment → tidak ada config mismatch (dev vs prod)
@@ -87,6 +93,7 @@ Security Implementation
     - Security Group rules:
       - SSH (22)
       - HTTP (80)
+      - HTTPS (443)
 	     - Grafana (3000)
 	     - Prometheus (9090)
 	     - Node Exporter (9100)
@@ -95,40 +102,44 @@ Security Implementation
 
 Project Structure
 
-```
+'''
+
 aldo-project-devops/
-├── .github/
-│   └── workflows/
-│       └── cicd.yml
-├── app/
-│   ├── Dockerfile
-│   └── index.html
-├── terraform/
-│   ├── env/
-│   │   ├── dev/
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   ├── terraform.tfvars
-│   │   │   └── variables.tf
-│   │   ├── prod/
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   ├── terraform.tfvars
-│   │   │   └── variables.tf
-│   │   └── staging/
-│   │       ├── main.tf
-│   │       ├── outputs.tf
-│   │       ├── terraform.tfvars
-│   │       └── variables.tf
-│   ├── modules/
-│   │   ├── ec2/
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── outputs.tf
-│   │   └── vpc/
-│   │       ├── main.tf
-│   │       ├── variables.tf
-│   │       └── outputs.tf
-│   └── .gitignore
-      
-```
+|
+|--.github/workflows/
+|  |--cicd.yml
+|
+|--app/
+|   |--dockerfile
+|   |--index.html
+|
+|--terraform/
+   |--env/
+   |   |--dev/
+   |   |    |--main.tf
+   |   |    |--ouputs.tf
+   |   |    |--terraform.tfvars
+   |   |    |--variables.tf
+   |   |--prod/
+   |   |    |--main.tf
+   |   |    |--ouputs.tf
+   |   |    |--terraform.tfvars
+   |   |    |--variables.tf
+   |   |--staging/
+   |   |    |--main.tf
+   |   |    |--ouputs.tf
+   |   |    |--terraform.tfvars
+   |   |    |--variables.tf
+   |
+   |--modules/
+   |   |--ec2/
+   |   |  |--main.tf
+   |   |  |--variables.tf
+   |   |  |--outputs.tf
+   |   |
+   |   |--vpc/
+   |      |--main.tf
+   |      |--variables.tf
+   |      |--outputs.tf
+   |
+   |--.gitignore
