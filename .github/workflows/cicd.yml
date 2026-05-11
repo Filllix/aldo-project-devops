@@ -86,7 +86,7 @@ jobs:
 
             curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
 
-
+            
   deploy-prod:
     needs: build
     runs-on: ubuntu-latest
@@ -108,4 +108,4 @@ jobs:
             echo "Waiting app to start..."
             sleep 5
 
-            curl -f http://localhost:80 || (echo "Healthcheck FAILED PROD" && exit 1)
+            curl -f http://localhost:8082 || (echo "Healthcheck FAILED PROD" && exit 1)
