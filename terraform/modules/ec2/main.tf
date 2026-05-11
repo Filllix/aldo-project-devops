@@ -44,7 +44,6 @@ protocol = "tcp"
 cidr_blocks = ["0.0.0.0/0"]
 }
 
-
 #PROMOTHEUS
 ingress {
 from_port = 9090

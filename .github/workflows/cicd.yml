@@ -39,7 +39,6 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:prod ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
 
-
   deploy-dev:
     needs: build
     runs-on: ubuntu-latest
