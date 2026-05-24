@@ -44,7 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev'
 
-    
     steps:
       - name: Deploy ke DEV EC2
         uses: appleboy/ssh-action@v0.1.6
@@ -83,6 +82,8 @@ jobs:
             # ✅ HEALTHCHECK
             echo "Waiting app to start..."
             sleep 5
+
+            curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
 
             curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
 
