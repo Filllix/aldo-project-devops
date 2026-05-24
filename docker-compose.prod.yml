@@ -27,3 +27,20 @@ services:
 
     volumes:
       - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  
+  grafana:
+    image: grafana/grafana:latest
+
+    restart: unless-stopped
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+    container_name: grafana
+
+volumes:
+  grafana-storage:
