@@ -82,12 +82,7 @@ jobs:
             # ✅ HEALTHCHECK
             echo "Waiting app to start..."
             sleep 5
-<<<<<<< HEAD
-
-            curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
-=======
->>>>>>> dev
-
+            
             curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
 
             
