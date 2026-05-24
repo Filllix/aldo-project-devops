@@ -1,0 +1,51 @@
+services:
+
+  app:
+    build:
+      context: ./app
+
+    restart: unless-stopped
+
+    ports:
+      - "8080:80"
+
+    container_name: app
+
+  node-exporter:
+    image: prom/node-exporter:latest
+
+    restart: unless-stopped
+
+    ports:
+      - "9100:9100"
+
+    container_name: node-exporter
+
+  prometheus:
+    image: prom/prometheus:latest
+
+    restart: unless-stopped
+
+    ports:
+      - "9090:9090"
+
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+    container_name: prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+
+    restart: unless-stopped
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+    container_name: grafana
+
+volumes:
+  grafana-storage:

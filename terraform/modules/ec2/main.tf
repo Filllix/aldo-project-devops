@@ -35,7 +35,11 @@ ingress {
 from_port = 9090
 to_port = 9090
 protocol = "tcp"
+<<<<<<< HEAD
 cidr_blocks = ["0.0.0.0/0"]
+=======
+ cidr_blocks = ["0.0.0.0/0"]
+>>>>>>> dev
 }
 
 #NODE EXPLORER
