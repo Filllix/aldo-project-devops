@@ -6,17 +6,17 @@ Project ini mensimulasikan environment production dengan multi-environment (dev,
 
 Business Impact (What This Project Solves)
   - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
-	-	Consistency antar environment → tidak ada config mismatch (dev vs prod)
-	-	Downtime berkurang → karena proses deploy terstandarisasi
+	- Consistency antar environment → tidak ada config mismatch (dev vs prod)
+	- Downtime berkurang → karena proses deploy terstandarisasi
 	- Visibility meningkat → monitoring real-time dengan metrics
 	- Security lebih terkontrol → menggunakan security group & network isolation
 
     
-       - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
-	   - Consistency antar environment → tidak ada config mismatch (dev vs prod)
-	   - Downtime berkurang → karena proses deploy terstandarisasi
-	   - Visibility meningkat → monitoring real-time dengan metrics
-	   - Security lebih terkontrol → menggunakan security group & network isolation
+ - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
+	- Consistency antar environment → tidak ada config mismatch (dev vs prod)
+	- Downtime berkurang → karena proses deploy terstandarisasi
+	- Visibility meningkat → monitoring real-time dengan metrics
+	- Security lebih terkontrol → menggunakan security group & network isolation
 
 Key Metrics (Simulated)
 
@@ -110,24 +110,24 @@ aldo-project-devops/
 |  |--cicd.yml
 |
 |--app/
-|   |--dockerfile
+|   |--Dockerfile
 |   |--index.html
 |
 |--terraform/
    |--env/
    |   |--dev/
    |   |    |--main.tf
-   |   |    |--ouputs.tf
+   |   |    |--outputs.tf
    |   |    |--terraform.tfvars
    |   |    |--variables.tf
    |   |--prod/
    |   |    |--main.tf
-   |   |    |--ouputs.tf
+   |   |    |--outputs.tf
    |   |    |--terraform.tfvars
    |   |    |--variables.tf
    |   |--staging/
    |   |    |--main.tf
-   |   |    |--ouputs.tf
+   |   |    |--outputs.tf
    |   |    |--terraform.tfvars
    |   |    |--variables.tf
    |
