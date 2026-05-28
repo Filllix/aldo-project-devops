@@ -1,145 +1,147 @@
-Production-Ready DevOps Infrastructure (AWS + Terraform + CI/CD + Monitoring)
+# Production-Ready DevOps Infrastructure
 
-Project Summary
-Membangun end-to-end DevOps pipeline berbasis cloud dengan pendekatan Infrastructure as Code (IaC), automated CI/CD, dan real-time monitoring.
-Project ini mensimulasikan environment production dengan multi-environment (dev, staging, prod) untuk memastikan proses deployment yang scalable, repeatable, dan reliable.
+AWS + Terraform + Docker + GitHub Actions + Monitoring
 
-Business Impact (What This Project Solves)
-  - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
-	-	Consistency antar environment → tidak ada config mismatch (dev vs prod)
-	-	Downtime berkurang → karena proses deploy terstandarisasi
-	- Visibility meningkat → monitoring real-time dengan metrics
-	- Security lebih terkontrol → menggunakan security group & network isolation
+## Project Summary
 
-    
-       - Deployment lebih cepat → dari manual menjadi fully automated (CI/CD)
-	   - Consistency antar environment → tidak ada config mismatch (dev vs prod)
-	   - Downtime berkurang → karena proses deploy terstandarisasi
-	   - Visibility meningkat → monitoring real-time dengan metrics
-	   - Security lebih terkontrol → menggunakan security group & network isolation
+Project ini membangun end-to-end DevOps pipeline berbasis cloud dengan pendekatan Infrastructure as Code, automated CI/CD, dan monitoring. Repo ini mensimulasikan environment production dengan multi-environment: `dev`, `staging`, dan `prod`.
 
-Key Metrics (Simulated)
+Production deployment menggunakan branch `main`, sedangkan development dan staging menggunakan branch `dev` dan `staging`.
 
-Deployment time: ~10–15 menit → < 3 menit
-	
-    - Manual steps reduced: 80% → 0% (fully automated)
-    - Infrastructure provisioning: 100% via Terraform
-    - Containerized services: 100%
-    - Monitoring coverage: CPU, Memory, Network, Instance health
+## Business Impact
 
-Architecture Overview
+- Deployment lebih cepat dari proses manual menjadi automated CI/CD.
+- Consistency antar environment karena infrastructure didefinisikan dengan Terraform.
+- Downtime berkurang karena proses deployment dibuat repeatable dan terstandarisasi.
+- Visibility meningkat melalui monitoring Prometheus, Grafana, dan Node Exporter.
+- Security lebih terkontrol melalui VPC, subnet, security group, dan pembatasan akses monitoring.
+
+## Key Metrics (Simulated)
+
+- Deployment time: sekitar 10-15 menit menjadi kurang dari 3 menit.
+- Manual deployment steps: dikurangi hingga 0 pada proses CI/CD.
+- Infrastructure provisioning: 100% via Terraform.
+- Containerized services: 100%.
+- Monitoring coverage: CPU, memory, disk, network, dan instance health.
+
+## Architecture Overview
 
 Project mencakup:
-	
-    - AWS EC2 → compute instance
-    - VPC → isolated network
-    - Subnet (Public) → resource placement
-    - Internet Gateway (IGW) → internet access
-    - Route Table (RTB) → traffic routing
-    - Security Group → firewall rules
-    - Docker → containerization
-    - GitHub Actions → CI/CD automation
-    - Prometheus → metrics collection
-    - Grafana → visualization dashboard
 
-Tech Stack
-	
-    - Terraform (Infrastructure as Code)
-    - AWS (EC2, VPC, Networking)
-    - Docker (Containerization)
-    - GitHub Actions (CI/CD Pipeline)
-    - Prometheus & Grafana (Monitoring & Observability)
-    - Linux (Ubuntu Server)
+- AWS EC2 sebagai compute instance.
+- VPC sebagai isolated network.
+- Public subnet untuk resource placement.
+- Internet Gateway untuk internet access.
+- Route Table untuk traffic routing.
+- Security Group sebagai firewall rules.
+- Docker untuk containerization.
+- GitHub Actions untuk CI/CD automation.
+- Prometheus untuk metrics collection.
+- Grafana untuk dashboard monitoring.
 
-Multi-Environment Strategy
+## Tech Stack
 
-Environment   Purpose
+- Terraform
+- AWS EC2, VPC, Subnet, Internet Gateway, Route Table, Security Group
+- Docker
+- GitHub Actions
+- Prometheus, Grafana, Node Exporter
+- Ubuntu Server
 
-- dev            Development & testing
-- staging        Pre-production validation
-- prod           Production environment
+## Multi-Environment Strategy
 
-Setiap environment memiliki konfigurasi terpisah
-Mendukung safe deployment & rollback strategy
+| Environment | Branch | Purpose |
+| --- | --- | --- |
+| dev | `dev` | Development and testing |
+| staging | `staging` | Pre-production validation |
+| prod | `main` | Production deployment |
 
-CI/CD Pipeline Flow
+Setiap environment memiliki konfigurasi Terraform terpisah dan mendukung deployment yang lebih aman serta mudah di-rollback.
 
-Developer Push Code
-        ↓
-GitHub Actions Trigger
-        ↓
-Build Docker Image
-        ↓
-Push to DockerHub
-        ↓
-SSH ke EC2
-        ↓
-Pull Latest Image
-        ↓
-Restart Container (Zero manual intervention)
+## CI/CD Pipeline Flow
 
-Monitoring & Observability
+```text
+Developer push code
+  -> GitHub Actions trigger
+  -> Build Docker image
+  -> Push image to DockerHub
+  -> SSH to EC2
+  -> Pull latest image
+  -> Restart container
+  -> Run healthcheck
+```
 
-- Prometheus
-	- Collect metrics dari Node Exporter
-    - Tracking: CPU, Memory, Disk, Network
+## Required GitHub Secrets
 
-- Grafana
-	- Dashboard visual real-time
-	- Alert-ready monitoring system
+| Secret | Description |
+| --- | --- |
+| `DOCKER_USERNAME` | DockerHub username |
+| `DOCKER_PASSWORD` | DockerHub password or access token |
+| `EC2_SSH_KEY` | Private SSH key for EC2 access |
+| `EC2_HOST_DEV` | Public host/IP for dev EC2 |
+| `EC2_HOST_STAGING` | Public host/IP for staging EC2 |
+| `EC2_HOST_PROD` | Public host/IP for prod EC2 |
 
-Security Implementation
+## Monitoring and Observability
 
-    - Security Group rules:
-      - SSH (22)
-      - HTTP (80)
-      - HTTPS (443)
-	     - Grafana (3000)
-	     - Prometheus (9090)
-	     - Node Exporter (9100)
-    - Isolated VPC network
-    - Controlled inbound/outbound traffic
+- Prometheus collects metrics from Node Exporter.
+- Grafana visualizes infrastructure and application metrics.
+- Monitoring ports are restricted to the VPC CIDR in Terraform.
+- For public access to Grafana, use an SSH tunnel, VPN, or a secured reverse proxy.
 
-Project Structure
+## Security Implementation
 
-'''
+- SSH access is controlled through `admin_cidr_blocks` in the EC2 Terraform module.
+- Application ports `8080`, `8081`, and `8082` are public for demo deployment access.
+- Grafana `3000`, Prometheus `9090`, and Node Exporter `9100` are restricted to the VPC CIDR.
+- VPC and subnet isolate the infrastructure layer.
+- Security group rules are defined as code and can be reviewed before apply.
 
+For a real deployment, replace the default SSH CIDR with your public IP, for example:
+
+```hcl
+admin_cidr_blocks = ["203.0.113.10/32"]
+```
+
+## Project Structure
+
+```text
 aldo-project-devops/
 |
-|--.github/workflows/
-|  |--cicd.yml
+|-- .github/
+|   `-- workflows/
+|       `-- cicd.yml
 |
-|--app/
-|   |--dockerfile
-|   |--index.html
+|-- app/
+|   |-- Dockerfile
+|   `-- index.html
 |
-|--terraform/
-   |--env/
-   |   |--dev/
-   |   |    |--main.tf
-   |   |    |--ouputs.tf
-   |   |    |--terraform.tfvars
-   |   |    |--variables.tf
-   |   |--prod/
-   |   |    |--main.tf
-   |   |    |--ouputs.tf
-   |   |    |--terraform.tfvars
-   |   |    |--variables.tf
-   |   |--staging/
-   |   |    |--main.tf
-   |   |    |--ouputs.tf
-   |   |    |--terraform.tfvars
-   |   |    |--variables.tf
-   |
-   |--modules/
-   |   |--ec2/
-   |   |  |--main.tf
-   |   |  |--variables.tf
-   |   |  |--outputs.tf
-   |   |
-   |   |--vpc/
-   |      |--main.tf
-   |      |--variables.tf
-   |      |--outputs.tf
-   |
-   |--.gitignore
+`-- terraform/
+    |-- env/
+    |   |-- dev/
+    |   |   |-- main.tf
+    |   |   |-- outputs.tf
+    |   |   |-- terraform.tfvars
+    |   |   `-- variables.tf
+    |   |-- staging/
+    |   |   |-- main.tf
+    |   |   |-- outputs.tf
+    |   |   |-- terraform.tfvars
+    |   |   `-- variables.tf
+    |   `-- prod/
+    |       |-- main.tf
+    |       |-- outputs.tf
+    |       |-- terraform.tfvars
+    |       `-- variables.tf
+    |
+    `-- modules/
+        |-- ec2/
+        |   |-- main.tf
+        |   |-- variables.tf
+        |   `-- outputs.tf
+        |
+        `-- vpc/
+            |-- main.tf
+            |-- variables.tf
+            `-- outputs.tf
+```

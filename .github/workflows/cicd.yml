@@ -3,38 +3,36 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - prod
+      - main
       - dev
       - staging
+  workflow_dispatch:
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Login DockerHub
+      - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # ✅ Build DEV
-      - name: Build & Push DEV
+      - name: Build and push DEV image
         if: github.ref == 'refs/heads/dev'
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:dev ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
-          # ✅ Build STAGING
-      - name: Build & Push STAGING
+      - name: Build and push STAGING image
         if: github.ref == 'refs/heads/staging'
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:staging ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
 
-      # ✅ Build PROD
-      - name: Build & Push PROD
-        if: github.ref == 'refs/heads/prod'
+      - name: Build and push PROD image
+        if: github.ref == 'refs/heads/main'
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:prod ./app
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
@@ -45,7 +43,7 @@ jobs:
     if: github.ref == 'refs/heads/dev'
 
     steps:
-      - name: Deploy ke DEV EC2
+      - name: Deploy to DEV EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST_DEV }}
@@ -56,10 +54,8 @@ jobs:
             docker rm -f app-dev || true
             docker run -d -p 8080:80 --name app-dev ${{ secrets.DOCKER_USERNAME }}/devops-app:dev
 
-            # ✅ HEALTHCHECK
             echo "Waiting app to start..."
             sleep 5
-
             curl -f http://localhost:8080 || (echo "Healthcheck FAILED DEV" && exit 1)
 
   deploy-staging:
@@ -68,7 +64,7 @@ jobs:
     if: github.ref == 'refs/heads/staging'
 
     steps:
-      - name: Deploy ke STAGING EC2
+      - name: Deploy to STAGING EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST_STAGING }}
@@ -78,23 +74,18 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
             docker rm -f app-staging || true
             docker run -d -p 8081:80 --name app-staging ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
-            
-            # ✅ HEALTHCHECK
+
             echo "Waiting app to start..."
             sleep 5
-
             curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
 
-            curl -f http://localhost:8081 || (echo "Healthcheck FAILED STAGING" && exit 1)
-
-            
   deploy-prod:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/prod'
+    if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Deploy ke PROD EC2
+      - name: Deploy to PROD EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST_PROD }}
@@ -105,8 +96,6 @@ jobs:
             docker rm -f app-prod || true
             docker run -d -p 8082:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
 
-            # ✅ HEALTHCHECK
             echo "Waiting app to start..."
             sleep 5
-
             curl -f http://localhost:8082 || (echo "Healthcheck FAILED PROD" && exit 1)
