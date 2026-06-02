@@ -1,23 +1,39 @@
-version: '3.9'
-
 services:
   app:
     image: ${DOCKER_USERNAME}/devops-app:staging
     container_name: app-staging
-
     restart: unless-stopped
-
     ports:
       - "8081:80"
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter-staging
+    restart: unless-stopped
+    ports:
+      - "9101:9100"
 
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus-staging
-
     restart: unless-stopped
-
     ports:
       - "9091:9090"
-
     volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - node-exporter
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-staging
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana-staging-storage:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+volumes:
+  grafana-staging-storage:

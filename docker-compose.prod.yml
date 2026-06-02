@@ -1,46 +1,44 @@
-version: '3.9'
-
 services:
   app:
-    image: ${DOCKER_USERNAME}/devops-app:latest
+    image: ${DOCKER_USERNAME}/devops-app:prod
     container_name: app-prod
-
     restart: always
-
     ports:
       - "80:80"
-
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
       interval: 30s
       timeout: 10s
       retries: 5
 
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter-prod
+    restart: always
+    ports:
+      - "9100:9100"
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus-prod
-
     restart: always
-
     ports:
       - "9090:9090"
-
     volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - node-exporter
 
-  
   grafana:
     image: grafana/grafana:latest
-
-    restart: unless-stopped
-
+    container_name: grafana-prod
+    restart: always
     ports:
       - "3000:3000"
-
     volumes:
       - grafana-storage:/var/lib/grafana
-
-    container_name: grafana
+    depends_on:
+      - prometheus
 
 volumes:
   grafana-storage:
