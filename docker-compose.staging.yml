@@ -36,8 +36,4 @@ services:
       - prometheus
 
 volumes:
-<<<<<<< HEAD
   grafana-staging-storage:
-=======
-  grafana-staging-storage:
->>>>>>> 03228472867eb87f29f2f82b28ac9f41c949b9ec

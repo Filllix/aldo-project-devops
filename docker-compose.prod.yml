@@ -1,10 +1,6 @@
 services:
   app:
-<<<<<<< HEAD
-    image: ${DOCKER_USERNAME}/devops-app:prod
-=======
     image: ${DOCKER_USERNAME:?DOCKER_USERNAME is required}/devops-app:prod
->>>>>>> 03228472867eb87f29f2f82b28ac9f41c949b9ec
     container_name: app-prod
     restart: always
     ports:
