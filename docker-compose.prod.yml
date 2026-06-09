@@ -1,10 +1,22 @@
 services:
-  app:
-    image: ${DOCKER_USERNAME:?DOCKER_USERNAME is required}/devops-app:prod
-    container_name: app-prod
+  app-blue:
+    image: ${DOCKER_USERNAME}/devops-app:prod
+    container_name: app-blue
     restart: always
     ports:
-      - "80:80"
+      - "80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  app-green:
+    image: ${DOCKER_USERNAME}/devops-app:prod
+    container_name: app-green
+    restart: always
+    ports:
+      - "80"
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
       interval: 30s
@@ -24,10 +36,6 @@ services:
     restart: always
     ports:
       - "9090:9090"
-    volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    depends_on:
-      - node-exporter
 
   grafana:
     image: grafana/grafana:latest
@@ -35,10 +43,16 @@ services:
     restart: always
     ports:
       - "3000:3000"
-    volumes:
-      - grafana-storage:/var/lib/grafana
-    depends_on:
-      - prometheus
 
-volumes:
-  grafana-storage:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    ports:
+    - "80:80"
+    volumes:
+     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+     - ./nginx:/etc/nginx/conf.d:ro
+    depends_on:
+      - app-blue
+      - app-green
