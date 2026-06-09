@@ -1,0 +1,14 @@
+app-blue:
+  ...
+  networks:
+    - bluegreen
+
+app-green:
+  ...
+  networks:
+    - bluegreen
+
+nginx:
+  ...
+  networks:
+    - bluegreen
