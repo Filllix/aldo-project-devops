@@ -1,6 +1,6 @@
 services:
   app-blue:
-    image: ${DOCKER_USERNAME}/devops-app:prod
+    image: aldocloud/devops-app:prod
     container_name: app-blue
     restart: always
     ports:
@@ -12,7 +12,7 @@ services:
       retries: 5
 
   app-green:
-    image: ${DOCKER_USERNAME}/devops-app:prod
+    image: aldocloud/devops-app:prod
     container_name: app-green
     restart: always
     ports:
