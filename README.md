@@ -12,7 +12,7 @@ Production deployment menggunakan branch main, sedangkan development dan staging
 
 - Deployment lebih cepat dari proses manual menjadi automated CI/CD.
 - Consistency antar environment karena infrastructure didefinisikan dengan Terraform.
-- Downtime berkurang karena proses deployment dibuat repeatable dan terstandarisasi.
+- Downtime berkurang karena production deployment memakai strategi blue-green dengan Nginx reverse proxy.
 - Visibility meningkat melalui monitoring Prometheus, Grafana, dan Node Exporter.
 - Security lebih terkontrol melalui VPC, subnet, security group, dan pembatasan akses monitoring.
 
@@ -67,8 +67,10 @@ Developer push code
   -> Push image to DockerHub
   -> SSH to EC2
   -> Pull latest image
-  -> Restart container
+  -> Deploy idle blue/green container
   -> Run healthcheck
+  -> Switch Nginx traffic
+  -> Remove old container after success
 ```
 
  Required GitHub Secrets
@@ -92,7 +94,8 @@ Developer push code
  Security Implementation
 
 - SSH access is controlled through admin_cidr_blocks in the EC2 Terraform module.
-- Application ports 8080, 8081, and 8082 are public for demo deployment access.
+- Application ports 8080 and 8081 are public for demo deployment access in dev and staging.
+- Production exposes only port 80 through Nginx. App containers stay private inside the Docker `bluegreen` network.
 - Grafana 3000, Prometheus 9090, and Node Exporter 9100 are restricted to the VPC CIDR.
 - VPC and subnet isolate the infrastructure layer.
 - Security group rules are defined as code and can be reviewed before apply.
@@ -102,6 +105,19 @@ For a real deployment, replace the default SSH CIDR with your public IP, for exa
 ```hcl
 admin_cidr_blocks = ["203.0.113.10/32"]
 ```
+
+ Production Blue-Green Deployment
+
+Production branch `main` deploys with this flow:
+
+1. GitHub Actions builds and pushes `${DOCKER_USERNAME}/devops-app:prod`.
+2. The EC2 deploy job checks which container is currently active from Nginx config.
+3. The new image is started on the idle color, either `app-blue` or `app-green`.
+4. The idle container must pass an internal healthcheck before any traffic is switched.
+5. Nginx updates `/etc/nginx/conf.d/default.conf` to point to the healthy target container and reloads.
+6. The old active container is removed only after the new route responds successfully.
+
+Rollback is simple: rerun the previous successful workflow commit or manually switch Nginx back to the other color if that container still exists.
 
  Project Structure
 

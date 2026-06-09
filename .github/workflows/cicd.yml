@@ -92,10 +92,109 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
-            docker rm -f app-prod || true
-            docker run -d -p 8082:80 --name app-prod ${{ secrets.DOCKER_USERNAME }}/devops-app:prod
+            set -euo pipefail
 
-            echo "Waiting app to start..."
-            sleep 5
-            curl -f http://localhost:8082 || (echo "Healthcheck FAILED PROD" && exit 1)
+            IMAGE="${{ secrets.DOCKER_USERNAME }}/devops-app:prod"
+            NETWORK="bluegreen"
+            NGINX_CONTAINER="nginx"
+
+            docker network create "$NETWORK" >/dev/null 2>&1 || true
+            docker pull "$IMAGE"
+
+            if docker ps -a --format '{{.Names}}' | grep -qx "$NGINX_CONTAINER"; then
+              docker start "$NGINX_CONTAINER" >/dev/null 2>&1 || true
+
+              if docker exec "$NGINX_CONTAINER" sh -c "grep -q 'app-green:80' /etc/nginx/conf.d/default.conf"; then
+                ACTIVE_COLOR="green"
+                TARGET_COLOR="blue"
+              else
+                ACTIVE_COLOR="blue"
+                TARGET_COLOR="green"
+              fi
+            else
+              ACTIVE_COLOR="none"
+              TARGET_COLOR="blue"
+            fi
+
+            TARGET_CONTAINER="app-${TARGET_COLOR}"
+            ACTIVE_CONTAINER="app-${ACTIVE_COLOR}"
+
+            echo "Active color: ${ACTIVE_COLOR}"
+            echo "Deploying target color: ${TARGET_COLOR}"
+
+            docker rm -f "$TARGET_CONTAINER" >/dev/null 2>&1 || true
+            docker run -d \
+              --name "$TARGET_CONTAINER" \
+              --network "$NETWORK" \
+              --restart always \
+              "$IMAGE"
+
+            echo "Waiting for ${TARGET_CONTAINER} healthcheck..."
+            for i in $(seq 1 30); do
+              if docker exec "$TARGET_CONTAINER" wget -q --spider http://127.0.0.1/; then
+                echo "${TARGET_CONTAINER} is healthy"
+                break
+              fi
+
+              if [ "$i" -eq 30 ]; then
+                echo "Healthcheck FAILED for ${TARGET_CONTAINER}"
+                docker logs "$TARGET_CONTAINER" || true
+                docker rm -f "$TARGET_CONTAINER" >/dev/null 2>&1 || true
+                exit 1
+              fi
+
+              sleep 2
+            done
+
+            cat > /tmp/default.conf <<EOF
+            upstream backend {
+                server ${TARGET_CONTAINER}:80;
+            }
+
+            server {
+                listen 80;
+
+                location / {
+                    proxy_pass http://backend;
+                    proxy_set_header Host \$host;
+                    proxy_set_header X-Real-IP \$remote_addr;
+                    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto \$scheme;
+                }
+            }
+            EOF
+
+            if ! docker ps -a --format '{{.Names}}' | grep -qx "$NGINX_CONTAINER"; then
+              docker run -d \
+                --name "$NGINX_CONTAINER" \
+                --network "$NETWORK" \
+                --restart always \
+                -p 80:80 \
+                -v /tmp/default.conf:/etc/nginx/conf.d/default.conf:ro \
+                nginx:alpine
+            elif ! docker inspect "$NGINX_CONTAINER" --format '{{json .NetworkSettings.Networks}}' | grep -q "\"${NETWORK}\""; then
+              docker network connect "$NETWORK" "$NGINX_CONTAINER"
+            fi
+
+            if ! docker cp /tmp/default.conf "$NGINX_CONTAINER":/etc/nginx/conf.d/default.conf; then
+              echo "Nginx config is mounted read-only. Recreating Nginx with the new config..."
+              docker rm -f "$NGINX_CONTAINER" >/dev/null 2>&1 || true
+              docker run -d \
+                --name "$NGINX_CONTAINER" \
+                --network "$NETWORK" \
+                --restart always \
+                -p 80:80 \
+                -v /tmp/default.conf:/etc/nginx/conf.d/default.conf:ro \
+                nginx:alpine
+            fi
+
+            docker exec "$NGINX_CONTAINER" nginx -t
+            docker exec "$NGINX_CONTAINER" nginx -s reload
+
+            curl -fsS http://127.0.0.1/ >/dev/null
+            echo "Traffic switched to ${TARGET_CONTAINER}"
+
+            if [ "$ACTIVE_COLOR" != "none" ]; then
+              docker rm -f "$ACTIVE_CONTAINER" >/dev/null 2>&1 || true
+              echo "Removed old container ${ACTIVE_CONTAINER}"
+            fi

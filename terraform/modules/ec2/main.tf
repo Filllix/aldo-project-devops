@@ -43,14 +43,6 @@ resource "aws_security_group" "web_sg" {
   }
 
   ingress {
-    description = "PROD application"
-    from_port   = 8082
-    to_port     = 8082
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
     description = "Grafana internal access"
     from_port   = 3000
     to_port     = 3000
